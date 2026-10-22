@@ -1,0 +1,6 @@
+{
+  "name": "Alex Dev - 个人技术网站与作品集",
+  "description": "全栈与移动端软件工程师个人网站，展示核心技术栈、精选开源项目、技术深度文章与个人简介。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
