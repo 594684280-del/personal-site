@@ -1,0 +1,14 @@
+{
+  // Cloudflare Workers 静态资产部署配置（Workers Builds 使用）
+  // 文档：https://developers.cloudflare.com/workers/static-assets/
+  "name": "personal-site",
+  "compatibility_date": "2026-10-01",
+  // 关键：assets 模式下不需要 worker 脚本，dist 里的静态文件直接作为站点发布
+  "assets": {
+    "directory": "./dist",
+    // 单页应用路由回退：未匹配路径返回 index.html（配合 public/_redirects 双保险）
+    "not_found_handling": "single-page-application",
+    // 站点无服务端逻辑，开启严格压缩与长缓存由 Cloudflare 默认处理
+    "html_handling": "auto-trailing-slash"
+  }
+}
