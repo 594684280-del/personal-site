@@ -5,11 +5,19 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // 部署在自有域名根路径下，base 用 '/'。
+    // 若改为部署到子路径（如 xxx.pages.dev/子目录），把这里改成 '/子路径/'。
+    base: '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
+    },
+    build: {
+      outDir: 'dist',
+      // 静态资源体积可控，关闭 sourcemap 减小发布体积
+      sourcemap: false,
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

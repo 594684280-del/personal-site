@@ -63,7 +63,41 @@ public/
 
 ## 部署
 
-构建产物为纯静态文件，可部署到 GitHub Pages / Vercel / Netlify 等任意静态托管。
+### 方案：Cloudflare Pages + 自有域名
+
+构建产物为纯静态文件，由 Cloudflare Pages 从 GitHub 自动构建发布。
+
+**一次性配置：**
+
+1. 登录 https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. 选择仓库 `personal-site`，构建配置如下：
+
+   | 配置项 | 值 |
+   | --- | --- |
+   | Framework preset | `Vite` |
+   | Build command | `npm install --legacy-peer-deps && npm run build` |
+   | Build output directory | `dist` |
+   | 环境变量 | `NODE_VERSION` = `22`（可选，写入 `wrangler.toml` 亦可） |
+
+   > `--legacy-peer-deps` 必须保留：Vite 8 与 `@tailwindcss/vite` 存在 peer 依赖告警，不加会构建失败。
+
+3. 点 **Save and Deploy**，首次构建约 1–2 分钟，得到 `xxx.pages.dev` 临时域名
+4. **Custom domains** → **Set up a custom domain** → 填入你的域名
+5. 把你的域名 NS 指向 Cloudflare（在 Cloudflare 添加站点后会给出两个 NS），等待生效
+
+**之后每个 `git push` 到 `main` 都会自动构建并发布。**
+
+### 目录说明
+
+- `wrangler.toml`：构建命令与输出目录（Cloudflare 可直接读取）
+- `public/_redirects`：单页应用路由回退，刷新子路径不会 404
+
+### 关于国内访问
+
+- Cloudflare 免费版在中国大陆无节点，流量通常由香港 / 东京 / 新加坡承接，延迟约 80–200ms
+- 启用代理（橙云）后才有 CDN 加速，纯 DNS 模式不加速
+- `*.pages.dev` 默认域名在国内访问不稳定，建议绑定自有域名
+- 需要更稳的境内速度需 ICP 备案 + 境内 CDN，成本与流程另计
 
 ## 许可
 

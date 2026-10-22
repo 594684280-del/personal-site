@@ -12,3 +12,6 @@ coverage/
 
 # 已弃用的旧示例头像
 public/avatar-placeholder.svg
+
+# Cloudflare 本地开发缓存
+.wrangler/
